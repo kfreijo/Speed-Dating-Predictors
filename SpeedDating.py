@@ -7,7 +7,7 @@ import pdb
 
 def main():
     # import data from csv file
-    data = np.loadtxt("SpeedDatingData.csv", dtype=str, delimiter=",")
+    data = np.genfromtxt("SpeedDatingData.csv", dtype=str, delimiter=",", filling_values="x")
     labels = data[0]
     print(labels)
 
