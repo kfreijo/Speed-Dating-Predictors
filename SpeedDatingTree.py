@@ -12,25 +12,19 @@ from sklearn.tree import DecisionTreeClassifier, plot_tree
 from sklearn.metrics import confusion_matrix
 import matplotlib.pyplot as plt
 
-parser = argparse.ArgumentParser(description="Train a perceptron to classify letters.")
-parser.add_argument('-s', '--seed', help='seed to control randomness', type=int)
-
-def main(args):
+def main():
 
     # import data from csv file
-    seed = random.seed(args.seed) # use seed parameter if given
     import os.path
-
     ROOT = os.path.dirname(os.path.abspath(__file__))
     rawdata = np.genfromtxt(ROOT + '/SDdata.csv', dtype=str, delimiter=",", filling_values="0")
 
-    # randomize and separate data into training and testing
+    # reshape data and get labels
     rawdata = rawdata.reshape(7972, 65)
     labels = rawdata[0] # array of column headers
     data = np.delete(rawdata, 0, axis=0) # delete the first line of data array before randomizing
     
-    # extract the id numbers in case we need
-    # delete the id number cols
+    # extract the id numbers and delete from data
     p1id = data[:, [0,1]]
     p2id = data[:, 6]
     data_labels = data[:, 7]
@@ -49,12 +43,13 @@ def main(args):
     useful_data[useful_data == ""] = "0"
     useful_data = useful_data.astype(np.float)
 
-    # decision tree section
+    # separate data into training and testing
     xtrain = useful_data[0:7200, :]
     ytrain = data_labels[0:7200]
     xtest = useful_data[7200:, :]
     ytest = data_labels[7200:]
 
+    # create decision tree based on entropy
     classifier = DecisionTreeClassifier(criterion = "entropy", random_state = 7)
     classifier.fit(xtrain, ytrain)
 
@@ -64,7 +59,7 @@ def main(args):
     # Show the confusion matrix for test data
     matrix = confusion_matrix(ytest, prediction)
     
-    #print confusion matrix
+    # print the confusion matrix
     print("Confusion Matrix:")
     for line in matrix:
         line2print = ""
@@ -80,7 +75,6 @@ def main(args):
     # Visualize the tree using matplotlib and plot_tree
     plt.figure()
     labels = np.array(["Did not match", "Matched"])
-
     tree = plot_tree(classifier, 
                 feature_names = attribute_labels,
                 class_names = labels,
@@ -88,18 +82,12 @@ def main(args):
                 filled = True,
                 fontsize=7,
                 max_depth=6)
-    
     plt.show()
 
-
+    # print the bar graph of the confusion matrix
     plt.bar(["Correct non-matches", "False non-matches", "Correct matches", "False matches"], [matrix[0][0], matrix[1][0], matrix[1][1], matrix[0][1]], color=["blue", "red", "blue", "red"])
     plt.title("Decision Tree Confusion Matrix")
     plt.show()
 
-
-
-
-
-
 if __name__ == "__main__":
-    main(parser.parse_args())
+    main()
