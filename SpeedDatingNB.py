@@ -19,7 +19,7 @@ def main(args):
     # import data from csv file
     seed = random.seed(args.seed) # use seed parameter if given
     ROOT = os.path.dirname(os.path.abspath(__file__))
-    with open("SDdata.csv") as file:
+    with open(ROOT + "/SDdata.csv") as file:
         labels = file.readline().split(",")
     data = np.genfromtxt(ROOT + '/SDdata.csv', dtype=int, delimiter=",", filling_values="0", skip_header=1)
 
@@ -61,12 +61,20 @@ def main(args):
     ypred = clf.predict(xtest)
 
     cm = confusion_matrix(ytest, ypred)
-    print(cm)
+    print("Confusion Matrix:")
+    for line in cm:
+        line2print = ""
+        for number in line:
+            spacing = " "*(5-len(str(number)))
+            line2print += f"{spacing}{str(number)}"
+        print(line2print)
+    
     #accuracy score of the model
     print('Accuracy score :', accuracy_score(ytest, ypred))
 
-    plt.figure(figsize=(10,5))
-    plt.title("Confusion matrix")
+    plt.bar(["Correct non-matches", "False non-matches", "Correct matches", "False matches"], [cm[0][0], cm[1][0], cm[1][1], cm[0][1]], color=["blue", "red", "blue", "red"])
+    plt.title("Naive Bayes Confusion Matrix")
+    plt.show()
 
 if __name__ == "__main__":
     main(parser.parse_args())

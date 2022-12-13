@@ -11,11 +11,22 @@ The data we used was found on Kaggle, and it was collected from multiple [Speed 
 * matplotlib
 
 # Files Included
-**SDdata.csv**
+***SDdata.csv***
 This csv file contains the data imported from Kaggle, used in our algorithms. Note: entries with more than 6 values left blank were not included in our analysis. 
 
-**SpeedDatingTree.py**
-This python file creates and plots a decision tree that determines whether or not a pair will be a match, based on the attribute values. 
+***ogSpeedDatingData.csv***
+The original dataset with all of the columns and rows that the original researchers collected.
 
-**SpeedDatingBayes.py**
-This python file utilizes a Naive Bayes Classifier to predict if a pair will be a match or not, based on the values of the given attributes. 
+***Speed Dating Data Key.doc***
+A word document containing a key for the meaning behind the variables in the dataset.
+
+***SpeedDatingTree.py***
+This python file creates and plots a decision tree that determines whether or not someone will match, based on the attribute values.
+
+The confusion matrix and accuracy for the model is printed in the terminal, and the decision tree is visualized with only the first 7 rows from the classifier, for easier consumption. Additionally, after closing the tree plot, a bar graph with the values from the confusion matrix will appear, (blue bars meaning correctly classified outcomes and red bars meaning incorrectly classified outcomes).
+
+
+***SpeedDatingNB.py***
+This python file utilizes a Naive Bayes Classifier to predict if someone will match or not, based on the values of the given attributes. 
+
+The confusion matrix and accuracy for the model is printed in the terminal, and the confusion matrix is plotted on a bar graph, (blue bars meaning correctly classified outcomes and red bars meaning incorrectly classified outcomes).

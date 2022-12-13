@@ -48,18 +48,14 @@ def main(args):
     # convert remaining data to floats
     useful_data[useful_data == ""] = "0"
     useful_data = useful_data.astype(np.float)
-    # usefuldata1 = useful_data[:, 0:5].astype(np.int)
-    # usefuldata2 = useful_data[:, 5].astype(np.float)
-    # usefuldata3 = useful_data[:, 6:].astype(np.int)
-    # useful_data = np.concatenate((usefuldata1, usefuldata2, usefuldata3))
 
     # decision tree section
-    xtrain = useful_data[0:7000, :]
-    ytrain = data_labels[0:7000]
-    xtest = useful_data[7000:, :]
-    ytest = data_labels[7000:]
+    xtrain = useful_data[0:7200, :]
+    ytrain = data_labels[0:7200]
+    xtest = useful_data[7200:, :]
+    ytest = data_labels[7200:]
 
-    classifier = DecisionTreeClassifier(criterion = "entropy", random_state = 11)
+    classifier = DecisionTreeClassifier(criterion = "entropy", random_state = 7)
     classifier.fit(xtrain, ytrain)
 
     # Test the decision tree
@@ -92,7 +88,12 @@ def main(args):
                 filled = True,
                 fontsize=7,
                 max_depth=6)
+    
+    plt.show()
 
+
+    plt.bar(["Correct non-matches", "False non-matches", "Correct matches", "False matches"], [matrix[0][0], matrix[1][0], matrix[1][1], matrix[0][1]], color=["blue", "red", "blue", "red"])
+    plt.title("Decision Tree Confusion Matrix")
     plt.show()
 
 
